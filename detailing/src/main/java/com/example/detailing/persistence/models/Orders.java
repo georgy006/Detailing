@@ -20,15 +20,15 @@ public class Orders {
     private String status;
 
     @ManyToOne
-    @JoinColumn(name = "CarID", nullable = false)
+    @JoinColumn(name = "car_id", nullable = false)
     private Car car;
 
     @ManyToOne
-    @JoinColumn(name = "ServiceID", nullable = false)
+    @JoinColumn(name = "service_id", nullable = false)
     private Services services;
 
     @ManyToOne
-    @JoinColumn(name = "UserID", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private Users user;
 }
 

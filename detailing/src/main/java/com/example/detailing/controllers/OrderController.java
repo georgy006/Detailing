@@ -1,11 +1,8 @@
 package com.example.detailing.controllers;
 
-import com.example.detailing.persistence.models.Car;
 import com.example.detailing.persistence.models.Orders;
-import com.example.detailing.persistence.models.dto.CarRequestDto;
 import com.example.detailing.persistence.models.dto.OrderCreateRequestDto;
 import com.example.detailing.persistence.models.dto.OrderUpdateRequestDto;
-import com.example.detailing.persistence.repositories.OrdersRepository;
 import com.example.detailing.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +22,7 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Orders> getOrderById(Long id){
+    public ResponseEntity<Orders> getOrderById(@PathVariable Long id){
         return ResponseEntity.ok(orderService.getOrdersById(id));
     }
 
@@ -40,7 +37,7 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<Orders> createOrder(@RequestBody OrderCreateRequestDto orderDto) {
+    public ResponseEntity<Orders> addOrder(@RequestBody OrderCreateRequestDto orderDto) {
         return ResponseEntity.ok(orderService.addOrder(orderDto));
     }
 
