@@ -1,8 +1,6 @@
 package com.example.detailing.controllers;
 
-import com.example.detailing.persistence.models.Car;
-import com.example.detailing.persistence.models.answers.car.CarToCarAnswerDto;
-import com.example.detailing.persistence.models.answers.order.OrderAnswerDto;
+import com.example.detailing.persistence.models.answers.CarToCarAnswerDto;
 import com.example.detailing.persistence.models.requests.CarRequestDto;
 import com.example.detailing.services.CarService;
 import org.springframework.beans.factory.annotation.Autowired;

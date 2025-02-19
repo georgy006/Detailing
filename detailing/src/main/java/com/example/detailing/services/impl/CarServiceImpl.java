@@ -1,14 +1,14 @@
 package com.example.detailing.services.impl;
 
 import com.example.detailing.persistence.models.Car;
-import com.example.detailing.persistence.models.Orders;
 import com.example.detailing.persistence.models.Users;
-import com.example.detailing.persistence.models.answers.car.CarToCarAnswerDto;
-import com.example.detailing.persistence.models.answers.order.ClientAnswerDto;
+import com.example.detailing.persistence.models.answers.CarToCarAnswerDto;
+import com.example.detailing.persistence.models.answers.ClientAnswerDto;
 import com.example.detailing.persistence.models.requests.CarRequestDto;
 import com.example.detailing.persistence.repositories.CarRepository;
 import com.example.detailing.persistence.repositories.UsersRepository;
 import com.example.detailing.services.CarService;
+import com.example.detailing.services.mapping.CarConvertor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,33 +21,15 @@ public class CarServiceImpl implements CarService {
     CarRepository carRepository;
     @Autowired
     UsersRepository usersRepository;
-
-
-    private CarToCarAnswerDto convertCarToCarAnswerDto(Car car){
-        Users user = usersRepository.findById(car.getUser().getId())
-                .orElseThrow(() -> new RuntimeException("Пользователь не найден"));
-
-        CarToCarAnswerDto carDto = new CarToCarAnswerDto();
-        carDto.setId(car.getId());
-        carDto.setBrand(car.getBrand());
-        carDto.setModel(car.getModel());
-        carDto.setStateNumber(car.getStateNumber());
-
-        ClientAnswerDto clientDto = new ClientAnswerDto();
-        clientDto.setEmail(user.getEmail());
-        clientDto.setNameUser(user.getName());
-
-        carDto.setClientAnswerDto(clientDto);
-
-        return carDto;
-    }
+    @Autowired
+    CarConvertor carConvertor;
 
 
     @Override
     public List<CarToCarAnswerDto> getAllCars() {
         List<Car> cars = carRepository.findAll();
         return cars.stream()
-                .map(this::convertCarToCarAnswerDto)
+                .map(carConvertor::convertCarToCarAnswerDto)
                 .collect(Collectors.toList());
     }
     @Override
@@ -56,7 +38,7 @@ public class CarServiceImpl implements CarService {
                 .orElseThrow(() -> new RuntimeException("Пользователь не найден"));
         List<Car> cars = carRepository.findByUser(user);
         return cars.stream()
-                .map(this::convertCarToCarAnswerDto)
+                .map(carConvertor::convertCarToCarAnswerDto)
                 .collect(Collectors.toList());
     }
 
@@ -64,7 +46,7 @@ public class CarServiceImpl implements CarService {
     public CarToCarAnswerDto getCarById(Long id) {
         Car car = carRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Автомобиль не найден"));
-        return convertCarToCarAnswerDto(car);
+        return carConvertor.convertCarToCarAnswerDto(car);
     }
 
     @Override
@@ -78,7 +60,7 @@ public class CarServiceImpl implements CarService {
                 user
         );
 
-        return convertCarToCarAnswerDto(carRepository.save(car));
+        return carConvertor.convertCarToCarAnswerDto(carRepository.save(car));
     }
 
     @Override
@@ -89,7 +71,7 @@ public class CarServiceImpl implements CarService {
         car.setModel(carDto.getModel());
         car.setStateNumber(carDto.getStateNumber());
 
-        return convertCarToCarAnswerDto(carRepository.save(car));
+        return carConvertor.convertCarToCarAnswerDto(carRepository.save(car));
     }
 
     @Override

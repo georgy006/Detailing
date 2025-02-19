@@ -1,4 +1,4 @@
-package com.example.detailing.persistence.models.answers.order;
+package com.example.detailing.persistence.models.answers;
 
 import lombok.Data;
 

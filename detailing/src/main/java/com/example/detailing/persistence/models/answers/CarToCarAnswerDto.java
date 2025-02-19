@@ -1,6 +1,5 @@
-package com.example.detailing.persistence.models.answers.car;
+package com.example.detailing.persistence.models.answers;
 
-import com.example.detailing.persistence.models.answers.order.ClientAnswerDto;
 import lombok.Data;
 
 @Data

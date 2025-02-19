@@ -1,6 +1,6 @@
 package com.example.detailing.services;
 
-import com.example.detailing.persistence.models.answers.order.OrderAnswerDto;
+import com.example.detailing.persistence.models.answers.OrderAnswerDto;
 import com.example.detailing.persistence.models.requests.OrderCreateRequestDto;
 import com.example.detailing.persistence.models.requests.OrderUpdateRequestDto;
 
