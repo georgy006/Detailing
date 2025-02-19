@@ -1,7 +1,7 @@
 package com.example.detailing.services;
 
 import com.example.detailing.persistence.models.Services;
-import com.example.detailing.persistence.models.dto.ServiceRequestDto;
+import com.example.detailing.persistence.models.requests.ServiceRequestDto;
 
 import java.util.List;
 

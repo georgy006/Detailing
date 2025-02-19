@@ -4,18 +4,19 @@ import com.example.detailing.persistence.models.Car;
 import com.example.detailing.persistence.models.Orders;
 import com.example.detailing.persistence.models.Services;
 import com.example.detailing.persistence.models.Users;
-import com.example.detailing.persistence.models.dto.OrderCreateRequestDto;
-import com.example.detailing.persistence.models.dto.OrderUpdateRequestDto;
+import com.example.detailing.persistence.models.answers.order.*;
+import com.example.detailing.persistence.models.requests.OrderCreateRequestDto;
+import com.example.detailing.persistence.models.requests.OrderUpdateRequestDto;
 import com.example.detailing.persistence.repositories.CarRepository;
 import com.example.detailing.persistence.repositories.OrdersRepository;
 import com.example.detailing.persistence.repositories.ServiceRepository;
 import com.example.detailing.persistence.repositories.UsersRepository;
 import com.example.detailing.services.OrderService;
-import jakarta.persistence.criteria.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderServerImpl implements OrderService {
@@ -29,35 +30,93 @@ public class OrderServerImpl implements OrderService {
     @Autowired
     ServiceRepository serviceRepository;
 
-    @Override
-    public List<Orders> getAllOrders() {
-        return ordersRepository.findAll();
+    private OrderAnswerDto convertToOrderAnswerDto(Orders order) {
+
+        Car car = carRepository.findById(order.getCar().getId())
+                .orElseThrow(() -> new RuntimeException("Car не найдено"));
+
+        Users user = usersRepository.findById(order.getUser().getId())
+                .orElseThrow(() -> new RuntimeException("Car не найдено"));
+
+        Services service = serviceRepository.findById(order.getServices().getId())
+                .orElseThrow(() -> new RuntimeException("Service не найдено"));
+
+        OrderAnswerDto answerDto = new OrderAnswerDto();
+        answerDto.setId(order.getId());
+        answerDto.setStatus(order.getStatus());
+
+        //Авто
+        CarAnswerDto carDto = new CarAnswerDto();
+        carDto.setBrand(car.getBrand());
+        carDto.setModel(car.getModel());
+        carDto.setStateNumber(car.getStateNumber());
+        answerDto.setCarAnswerDto(carDto);
+
+        //Клиент
+        ClientAnswerDto clientDto = new ClientAnswerDto();
+        clientDto.setEmail(car.getUser().getEmail());
+        clientDto.setNameUser(car.getUser().getName());
+        answerDto.setClientAnswerDto(clientDto);
+
+        //Стафф
+        StaffAnswerDto staffDto = new StaffAnswerDto();
+        staffDto.setNameStaff(user.getName());
+        answerDto.setStaffAnswerDto(staffDto);
+
+        //Услуга
+        ServiceAnswerDto serviceDto = new ServiceAnswerDto();
+        serviceDto.setNameService(service.getName());
+        serviceDto.setPrice(service.getPrice());
+        serviceDto.setTime(service.getTime());
+        serviceDto.setDescription(service.getDescription());
+        answerDto.setServiceAnswerDto(serviceDto);
+
+        return answerDto;
     }
 
     @Override
-    public Orders getOrdersById(Long id) {
-        return ordersRepository.findById(id)
+    public List<OrderAnswerDto> getAllOrders() {
+        List<Orders> orders = ordersRepository.findAll();
+
+        return orders.stream()
+                .map(this::convertToOrderAnswerDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public OrderAnswerDto getOrdersById(Long id) {
+        Orders order = ordersRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Заказ не найден"));
+
+        return convertToOrderAnswerDto(order);
     }
 
     @Override
-    public List<Orders> getOrdersByUser(Long userId) {
+    public List<OrderAnswerDto> getOrdersByUser(Long userId) {
         Users user = usersRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Пользователь не найден"));
 
-        return ordersRepository.findByUser(user);
+        List<Orders> orders = ordersRepository.findByUser(user);
+
+        return  orders.stream()
+                .map(this::convertToOrderAnswerDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<Orders> getOrdersByCar(Long carId) {
+    public List<OrderAnswerDto> getOrdersByCar(Long carId) {
         Car car = carRepository.findById(carId)
                 .orElseThrow(() -> new RuntimeException("Авто не найдено"));
 
-        return ordersRepository.findByCar(car);
+        List<Orders> orders = ordersRepository.findByCar(car);
+
+        return orders.stream()
+                .map(this::convertToOrderAnswerDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Orders addOrder(OrderCreateRequestDto orderDto) {
+    public OrderAnswerDto addOrder(OrderCreateRequestDto orderDto) {
         Car car = carRepository.findById(orderDto.getCarId())
                 .orElseThrow(() -> new RuntimeException("Машина не найдена"));
 
@@ -75,15 +134,15 @@ public class OrderServerImpl implements OrderService {
                 user
         );
 
-        return ordersRepository.save(order);
+        return convertToOrderAnswerDto(ordersRepository.save(order));
     }
 
     @Override
-    public Orders updateOrder(Long id, OrderUpdateRequestDto orderDto) {
+    public OrderAnswerDto updateOrder(Long id, OrderUpdateRequestDto orderDto) {
         Orders order =ordersRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Услуга не найдена"));
 
         order.setStatus(orderDto.getStatus());
-        return ordersRepository.save(order);
+        return convertToOrderAnswerDto(ordersRepository.save(order));
     }
 }

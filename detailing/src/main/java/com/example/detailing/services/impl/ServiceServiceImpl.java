@@ -1,7 +1,7 @@
 package com.example.detailing.services.impl;
 
 import com.example.detailing.persistence.models.Services;
-import com.example.detailing.persistence.models.dto.ServiceRequestDto;
+import com.example.detailing.persistence.models.requests.ServiceRequestDto;
 import com.example.detailing.persistence.repositories.ServiceRepository;
 import com.example.detailing.services.ServiceService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.example.detailing.persistence.models.dto;
+package com.example.detailing.persistence.models.requests;
 
 import lombok.Data;
 

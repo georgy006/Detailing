@@ -1,8 +1,8 @@
 package com.example.detailing.services;
 
 import com.example.detailing.persistence.models.Users;
-import com.example.detailing.persistence.models.dto.UserCreateRequestDto;
-import com.example.detailing.persistence.models.dto.UserUpdateRequestDto;
+import com.example.detailing.persistence.models.requests.UserCreateRequestDto;
+import com.example.detailing.persistence.models.requests.UserUpdateRequestDto;
 
 import java.util.List;
 

@@ -2,7 +2,7 @@ package com.example.detailing.services.impl;
 
 import com.example.detailing.persistence.models.Car;
 import com.example.detailing.persistence.models.Users;
-import com.example.detailing.persistence.models.dto.CarRequestDto;
+import com.example.detailing.persistence.models.requests.CarRequestDto;
 import com.example.detailing.persistence.repositories.CarRepository;
 import com.example.detailing.persistence.repositories.UsersRepository;
 import com.example.detailing.services.CarService;

@@ -2,8 +2,8 @@ package com.example.detailing.services.impl;
 
 import com.example.detailing.persistence.models.Role;
 import com.example.detailing.persistence.models.Users;
-import com.example.detailing.persistence.models.dto.UserCreateRequestDto;
-import com.example.detailing.persistence.models.dto.UserUpdateRequestDto;
+import com.example.detailing.persistence.models.requests.UserCreateRequestDto;
+import com.example.detailing.persistence.models.requests.UserUpdateRequestDto;
 import com.example.detailing.persistence.repositories.RoleRepository;
 import com.example.detailing.persistence.repositories.UsersRepository;
 import com.example.detailing.services.UserService;

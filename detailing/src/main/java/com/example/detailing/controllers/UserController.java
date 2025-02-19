@@ -1,8 +1,8 @@
 package com.example.detailing.controllers;
 
 import com.example.detailing.persistence.models.Users;
-import com.example.detailing.persistence.models.dto.UserCreateRequestDto;
-import com.example.detailing.persistence.models.dto.UserUpdateRequestDto;
+import com.example.detailing.persistence.models.requests.UserCreateRequestDto;
+import com.example.detailing.persistence.models.requests.UserUpdateRequestDto;
 import com.example.detailing.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
