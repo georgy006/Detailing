@@ -2,6 +2,7 @@ package com.example.detailing.services.impl;
 
 import com.example.detailing.persistence.models.Role;
 import com.example.detailing.persistence.models.Users;
+import com.example.detailing.persistence.models.answers.UserAnswerDto;
 import com.example.detailing.persistence.models.requests.UserCreateRequestDto;
 import com.example.detailing.persistence.models.requests.UserUpdateRequestDto;
 import com.example.detailing.persistence.repositories.RoleRepository;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -19,28 +21,44 @@ public class UserServiceImpl implements UserService {
     @Autowired
     RoleRepository roleRepository;
 
+    private UserAnswerDto convertToUserAnswerDto(Users user){
+        UserAnswerDto userDto = new UserAnswerDto();
+        userDto.setId(user.getId());
+        userDto.setNameUser(user.getName());
+        userDto.setEmail(user.getEmail());
+
+        return userDto;
+    }
+
     @Override
-    public List<Users> getAllClients() {
+    public List<UserAnswerDto> getAllClients() {
         Role clientRole = roleRepository.findByName("client")
                 .orElseThrow(() -> new RuntimeException("Роль 'client' не найдена"));
-        return usersRepository.findByRole(clientRole);
+        List<Users> users = usersRepository.findByRole(clientRole);
+        return users.stream()
+                .map(this::convertToUserAnswerDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<Users> getAllStaff() {
+    public List<UserAnswerDto> getAllStaff() {
         Role staffRole = roleRepository.findByName("staff")
                 .orElseThrow(() -> new RuntimeException("Роль 'staff' не найдена"));
-        return usersRepository.findByRole(staffRole);
+        List<Users> users = usersRepository.findByRole(staffRole);
+        return users.stream()
+                .map(this::convertToUserAnswerDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Users getUserById(Long id) {
-        return usersRepository.findById(id)
+    public UserAnswerDto getUserById(Long id) {
+        Users user = usersRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Пользователь не найден"));
+        return convertToUserAnswerDto(user);
     }
 
     @Override
-    public Users addUser(UserCreateRequestDto userDto) {
+    public UserAnswerDto addUser(UserCreateRequestDto userDto) {
         Role role = roleRepository.findByName(userDto.getRole())
                 .orElseThrow(() -> new RuntimeException("Роль"+ userDto.getRole() + "не найдена"));
         Users user = new Users(
@@ -50,17 +68,17 @@ public class UserServiceImpl implements UserService {
                 userDto.getPassword(),
                 role
                 );
-        return usersRepository.save(user);
+        return convertToUserAnswerDto(usersRepository.save(user));
     }
 
     @Override
-    public Users updateUser(Long id, UserUpdateRequestDto userDto) {
+    public UserAnswerDto updateUser(Long id, UserUpdateRequestDto userDto) {
         Users user = usersRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Пользователь не найден"));
 
         user.setName(userDto.getName());
         user.setEmail(userDto.getEmail());
-        return usersRepository.save(user);
+        return convertToUserAnswerDto(usersRepository.save(user));
     }
 
     @Override

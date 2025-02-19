@@ -1,6 +1,8 @@
 package com.example.detailing.controllers;
 
 import com.example.detailing.persistence.models.Car;
+import com.example.detailing.persistence.models.answers.car.CarToCarAnswerDto;
+import com.example.detailing.persistence.models.answers.order.OrderAnswerDto;
 import com.example.detailing.persistence.models.requests.CarRequestDto;
 import com.example.detailing.services.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,28 +18,28 @@ public class CarController {
     CarService carService;
 
     @GetMapping
-    public List<Car> getAllCars(){
+    public List<CarToCarAnswerDto> getAllCars(){
         return carService.getAllCars();
     }
 
     @GetMapping("/user/{userId}")
-    public List<Car> getUserCars(@PathVariable Long userId){
+    public List<CarToCarAnswerDto> getUserCars(@PathVariable Long userId){
         return carService.getUserCars(userId);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Car> getCarById(@PathVariable Long id){
+    public ResponseEntity<CarToCarAnswerDto> getCarById(@PathVariable Long id){
         return ResponseEntity.ok(carService.getCarById(id));
     }
 
     @PostMapping("/user/{userId}")
-    public ResponseEntity<Car> addCarToUser(@PathVariable Long userId,
+    public ResponseEntity<CarToCarAnswerDto> addCarToUser(@PathVariable Long userId,
                                       @RequestBody CarRequestDto carDto){
         return ResponseEntity.ok(carService.addCarToUser(userId, carDto));
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<Car> updateCar(@PathVariable Long id,
+    public ResponseEntity<CarToCarAnswerDto> updateCar(@PathVariable Long id,
                                             @RequestBody CarRequestDto carDto){
         return ResponseEntity.ok(carService.updateCar(id, carDto));
     }

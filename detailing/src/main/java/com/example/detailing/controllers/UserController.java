@@ -1,6 +1,7 @@
 package com.example.detailing.controllers;
 
 import com.example.detailing.persistence.models.Users;
+import com.example.detailing.persistence.models.answers.UserAnswerDto;
 import com.example.detailing.persistence.models.requests.UserCreateRequestDto;
 import com.example.detailing.persistence.models.requests.UserUpdateRequestDto;
 import com.example.detailing.services.UserService;
@@ -18,25 +19,25 @@ public class UserController {
     UserService userService;
 
     @GetMapping("/clients")
-    public List<Users> getAllClients(){
+    public List<UserAnswerDto> getAllClients(){
         return userService.getAllClients();
     }
     @GetMapping("/staff")
-    public List<Users> getAllStaff(){
+    public List<UserAnswerDto> getAllStaff(){
         return userService.getAllStaff();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Users> getUserById(@PathVariable Long id){
+    public ResponseEntity<UserAnswerDto> getUserById(@PathVariable Long id){
         return ResponseEntity.ok(userService.getUserById(id));
     }
 
     @PostMapping()
-    public ResponseEntity<Users> addUser(@RequestBody UserCreateRequestDto userDto){
+    public ResponseEntity<UserAnswerDto> addUser(@RequestBody UserCreateRequestDto userDto){
         return ResponseEntity.ok(userService.addUser(userDto));
     }
     @PostMapping("/{id}")
-    public ResponseEntity<Users> updateUser(@PathVariable Long id,
+    public ResponseEntity<UserAnswerDto> updateUser(@PathVariable Long id,
                                             @RequestBody UserUpdateRequestDto userDto){
         return ResponseEntity.ok(userService.updateUser(id, userDto));
     }
