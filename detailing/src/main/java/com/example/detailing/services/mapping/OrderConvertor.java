@@ -42,8 +42,7 @@ public class OrderConvertor {
 
         if(order.getUser() != null) {
             answerDto.setStaffAnswerDto(convertStaff(order.getUser()));
-        }else
-            answerDto.setStaffAnswerDto(convertStaff(null));
+        }
 
         answerDto.setServiceAnswerDto(convertService(service));
 
