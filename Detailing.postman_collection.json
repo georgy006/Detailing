@@ -34,7 +34,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"brand\": \"Lada\",\n    \"model\": \"Granta\",\n    \"stateNumber\": \"A770AA33\"\n}",
+							"raw": "{\n    \"brand\": \"BMW\",\n    \"model\": \"X6\",\n    \"stateNumber\": \"C555CC55\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -42,7 +42,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/cars/user/2",
+							"raw": "localhost:8080/cars/user/3",
 							"host": [
 								"localhost"
 							],
@@ -50,7 +50,7 @@
 							"path": [
 								"cars",
 								"user",
-								"2"
+								"3"
 							]
 						}
 					},
@@ -62,7 +62,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/cars/user/1",
+							"raw": "localhost:8080/cars/user/3",
 							"host": [
 								"localhost"
 							],
@@ -70,7 +70,7 @@
 							"path": [
 								"cars",
 								"user",
-								"1"
+								"3"
 							]
 						}
 					},
@@ -150,6 +150,9 @@
 				{
 					"name": "getAllClients",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -169,6 +172,21 @@
 				{
 					"name": "getAllStaff",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "123",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -191,60 +209,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/user/2",
+							"raw": "localhost:8080/user/4",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"user",
-								"2"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "deleteUserById",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:8080/user/2",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"user",
-								"2"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "addUser",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"Макс\",\n    \"email\": \"maks@gmmai.com\",\n    \"password\": \"121212\",\n    \"role\": \"client\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:8080/user",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"user"
+								"4"
 							]
 						}
 					},
@@ -350,70 +322,71 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/service/1",
+							"raw": "localhost:8080/order",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"service",
-								"1"
+								"order"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "getAllOrders Copy",
+					"name": "getOrderById",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/service/1",
+							"raw": "localhost:8080/order/11",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"service",
-								"1"
+								"order",
+								"11"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "getAllOrders Copy",
+					"name": "getOrdersByIdStaff",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/service/1",
+							"raw": "localhost:8080/order/user/4",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"service",
-								"1"
+								"order",
+								"user",
+								"4"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "getAllOrders Copy",
+					"name": "getOrdersByCar",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/service/1",
+							"raw": "localhost:8080/order/car/1",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"service",
+								"order",
+								"car",
 								"1"
 							]
 						}
@@ -421,40 +394,98 @@
 					"response": []
 				},
 				{
-					"name": "getAllOrders Copy",
+					"name": "addOrder",
 					"request": {
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"принято\",\n    \"carId\": 2,\n    \"serviceId\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "localhost:8080/service/1",
+							"raw": "localhost:8080/order",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"service",
-								"1"
+								"order"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "getAllOrders Copy",
+					"name": "updateOrder",
 					"request": {
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"готов\",\n    \"userId\": 4\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "localhost:8080/service/1",
+							"raw": "localhost:8080/order/11",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"service",
-								"1"
+								"order",
+								"11"
 							]
 						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"John Doe\",\n    \"email\": \"johndoe@example.com\",\n    \"password\": \"mypassword\",\n    \"role\": \"client\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/auth/register",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "GET",
+						"header": []
 					},
 					"response": []
 				}
