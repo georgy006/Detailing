@@ -9,6 +9,7 @@ import com.example.detailing.persistence.repositories.RoleRepository;
 import com.example.detailing.persistence.repositories.UsersRepository;
 import com.example.detailing.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,11 +21,14 @@ public class UserServiceImpl implements UserService {
     UsersRepository usersRepository;
     @Autowired
     RoleRepository roleRepository;
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
+
 
     private UserAnswerDto convertToUserAnswerDto(Users user){
         UserAnswerDto userDto = new UserAnswerDto();
         userDto.setId(user.getId());
-        userDto.setNameUser(user.getName());
+        userDto.setName(user.getName());
         userDto.setEmail(user.getEmail());
 
         return userDto;
@@ -58,14 +62,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserAnswerDto addUser(UserCreateRequestDto userDto) {
+    public UserAnswerDto registerUser(UserCreateRequestDto userDto) {
         Role role = roleRepository.findByName(userDto.getRole())
                 .orElseThrow(() -> new RuntimeException("Роль"+ userDto.getRole() + "не найдена"));
+
+//        String encodedPassword = passwordEncoder.encode(userDto.getPassword());
+
         Users user = new Users(
                 null,
                 userDto.getName(),
                 userDto.getEmail(),
                 userDto.getPassword(),
+//                encodedPassword,
                 role
                 );
         return convertToUserAnswerDto(usersRepository.save(user));

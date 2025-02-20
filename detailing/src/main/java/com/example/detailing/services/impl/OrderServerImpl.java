@@ -99,10 +99,8 @@ public class OrderServerImpl implements OrderService {
     public OrderAnswerDto updateOrder(Long id, OrderUpdateRequestDto orderDto) {
         Orders order = ordersRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Услуга не найдена"));
-        Users user = usersRepository.findById(order.getUser().getId())
+        Users user = usersRepository.findById(orderDto.getUserId())
                 .orElseThrow(() -> new RuntimeException("User не найдено"));
-        OrderAnswerDto answerDto = new OrderAnswerDto();
-
 
         order.setStatus(orderDto.getStatus());
         order.setUser(user);

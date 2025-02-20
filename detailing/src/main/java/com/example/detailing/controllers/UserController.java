@@ -1,6 +1,5 @@
 package com.example.detailing.controllers;
 
-import com.example.detailing.persistence.models.Users;
 import com.example.detailing.persistence.models.answers.UserAnswerDto;
 import com.example.detailing.persistence.models.requests.UserCreateRequestDto;
 import com.example.detailing.persistence.models.requests.UserUpdateRequestDto;
@@ -32,9 +31,9 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserById(id));
     }
 
-    @PostMapping()
-    public ResponseEntity<UserAnswerDto> addUser(@RequestBody UserCreateRequestDto userDto){
-        return ResponseEntity.ok(userService.addUser(userDto));
+    @PostMapping("/register")
+    public ResponseEntity<UserAnswerDto> registerUser(@RequestBody UserCreateRequestDto userDto){
+        return ResponseEntity.ok(userService.registerUser(userDto));
     }
     @PostMapping("/{id}")
     public ResponseEntity<UserAnswerDto> updateUser(@PathVariable Long id,

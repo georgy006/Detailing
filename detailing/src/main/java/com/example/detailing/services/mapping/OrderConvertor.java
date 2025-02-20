@@ -11,8 +11,6 @@ import com.example.detailing.persistence.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
-
 @Component
 public class OrderConvertor {
     @Autowired
@@ -58,7 +56,7 @@ public class OrderConvertor {
     private ClientAnswerDto convertClient(Car car){
         ClientAnswerDto clientDto = new ClientAnswerDto();
         clientDto.setEmail(car.getUser().getEmail());
-        clientDto.setNameUser(car.getUser().getName());
+        clientDto.setName(car.getUser().getName());
         return clientDto;
     }
     private StaffAnswerDto convertStaff(Users user) {

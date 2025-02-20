@@ -10,7 +10,7 @@ public interface UserService {
     List<UserAnswerDto> getAllClients();
     List<UserAnswerDto> getAllStaff();
     UserAnswerDto getUserById(Long id);
-    UserAnswerDto addUser(UserCreateRequestDto userDto);
+    UserAnswerDto registerUser(UserCreateRequestDto userDto);
     UserAnswerDto updateUser(Long id, UserUpdateRequestDto userDto);
     void deleteUser(Long id);
 

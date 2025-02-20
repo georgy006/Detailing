@@ -32,7 +32,7 @@ public class CarConvertor {
     private ClientAnswerDto clientDto(Users user){
         ClientAnswerDto clientDto = new ClientAnswerDto();
         clientDto.setEmail(user.getEmail());
-        clientDto.setNameUser(user.getName());
+        clientDto.setName(user.getName());
         return clientDto;
     }
 }

@@ -9,12 +9,9 @@ public class OrderAnswerDto {
 
     private CarAnswerDto carAnswerDto;
 
-    //Клиент
     private ClientAnswerDto clientAnswerDto;
 
-    //Услуга
-    ServiceAnswerDto serviceAnswerDto;
+    private ServiceAnswerDto serviceAnswerDto;
 
-    //Staff
     private StaffAnswerDto staffAnswerDto;
 }
