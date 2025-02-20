@@ -1,7 +1,6 @@
 package com.example.detailing.controllers;
 
 import com.example.detailing.persistence.models.answers.UserAnswerDto;
-import com.example.detailing.persistence.models.requests.UserCreateRequestDto;
 import com.example.detailing.persistence.models.requests.UserUpdateRequestDto;
 import com.example.detailing.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +30,7 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserById(id));
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<UserAnswerDto> registerUser(@RequestBody UserCreateRequestDto userDto){
-        return ResponseEntity.ok(userService.registerUser(userDto));
-    }
+
     @PostMapping("/{id}")
     public ResponseEntity<UserAnswerDto> updateUser(@PathVariable Long id,
                                             @RequestBody UserUpdateRequestDto userDto){

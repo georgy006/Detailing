@@ -21,8 +21,8 @@ public class UserServiceImpl implements UserService {
     UsersRepository usersRepository;
     @Autowired
     RoleRepository roleRepository;
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     private UserAnswerDto convertToUserAnswerDto(Users user){
@@ -66,14 +66,13 @@ public class UserServiceImpl implements UserService {
         Role role = roleRepository.findByName(userDto.getRole())
                 .orElseThrow(() -> new RuntimeException("Роль"+ userDto.getRole() + "не найдена"));
 
-//        String encodedPassword = passwordEncoder.encode(userDto.getPassword());
+        String encodedPassword = passwordEncoder.encode(userDto.getPassword());
 
         Users user = new Users(
                 null,
                 userDto.getName(),
                 userDto.getEmail(),
-                userDto.getPassword(),
-//                encodedPassword,
+                encodedPassword,
                 role
                 );
         return convertToUserAnswerDto(usersRepository.save(user));
