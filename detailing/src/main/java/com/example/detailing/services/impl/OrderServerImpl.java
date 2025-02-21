@@ -16,6 +16,7 @@ import com.example.detailing.services.mapping.OrderConvertor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -62,6 +63,25 @@ public class OrderServerImpl implements OrderService {
                 .map(orderConverter :: convertToOrderAnswerDto)
                 .collect(Collectors.toList());
     }
+    @Override
+    public List<OrderAnswerDto> getOrdersByClient(Long userId) {
+        Users user = usersRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Пользователь не найден"));
+
+        List<Car> cars = carRepository.findByUser(user);
+        List<Orders> allOrders = new ArrayList<>(); // Список для всех заказов
+
+        allOrders.addAll(ordersRepository.findByCar(cars.get(0)));
+
+        for (int i = 1; i < cars.size(); i++) {
+            allOrders.addAll(ordersRepository.findByCar(cars.get(i)));
+        }
+
+        return  allOrders.stream()
+                .map(orderConverter :: convertToOrderAnswerDto)
+                .collect(Collectors.toList());
+    }
+
 
     @Override
     public List<OrderAnswerDto> getOrdersByCar(Long carId) {

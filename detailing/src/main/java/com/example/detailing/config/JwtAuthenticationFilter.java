@@ -1,10 +1,13 @@
 package com.example.detailing.config;
 
+import com.example.detailing.persistence.models.Users;
+import com.example.detailing.persistence.repositories.UsersRepository;
 import com.example.detailing.services.jwt.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,6 +24,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
 
+    @Autowired
+    private UsersRepository usersRepository;
+
     public JwtAuthenticationFilter(JwtService jwtService, UserDetailsService userDetailsService) {
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
@@ -33,25 +39,31 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             FilterChain filterChain
     ) throws ServletException, IOException {
 
+        System.out.println("🛑 Проверка запроса: " + request.getRequestURI());
+
         String authHeader = request.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            System.out.println("❌ Токен отсутствует или некорректен");
             filterChain.doFilter(request, response);
             return;
         }
 
-        String token = authHeader.substring(7); // Убираем "Bearer "
+        String token = authHeader.substring(7);
         String username = jwtService.extractUsername(token);
+        System.out.println("🔍 Извлечённый username из токена: " + username);
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            Users user = usersRepository.findByEmail(username).orElse(null);
 
-            if (jwtService.isTokenValid(token, username)) {
+            if (user != null && jwtService.isTokenValid(token, user)) {
+                System.out.println("✅ Пользователь " + user.getEmail() + " аутентифицирован");
+
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities()
+                        user, null, user.getAuthorities()
                 );
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+            } else {
+                System.out.println("❌ Токен недействителен");
             }
         }
 

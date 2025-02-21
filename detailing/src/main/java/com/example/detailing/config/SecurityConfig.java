@@ -36,6 +36,12 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())  // Отключаем CSRF
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/login", "/auth/register").permitAll() // Разрешаем вход и регистрацию
+                        .requestMatchers(
+                                "/order/**",
+                                "/cars/**",
+                                "/user/**",
+                                "/service/**"
+                        ).authenticated()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // Добавляем JWT-фильтр

@@ -1,5 +1,6 @@
 package com.example.detailing.services.jwt;
 
+import com.example.detailing.persistence.models.Users;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -33,8 +34,17 @@ public class JwtService {
         return extractClaim(token, Claims::getSubject);
     }
 
-    public boolean isTokenValid(String token, String username) {
-        return (username.equals(extractUsername(token))) && !isTokenExpired(token);
+    public boolean isTokenValid(String token, Users user) {
+        String extractedUsername = extractUsername(token);
+        boolean tokenValid = extractedUsername.equals(user.getEmail()) && !isTokenExpired(token);
+
+        System.out.println("🔍 Проверка токена:");
+        System.out.println(" - Извлечённый username: " + extractedUsername);
+        System.out.println(" - Ожидаемый username: " + user.getEmail());
+        System.out.println(" - Токен истёк? " + isTokenExpired(token));
+        System.out.println(" - Токен валиден? " + tokenValid);
+
+        return tokenValid;
     }
 
     private boolean isTokenExpired(String token) {
