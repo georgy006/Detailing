@@ -40,7 +40,8 @@ public class SecurityConfig {
                                 "/order/**",
                                 "/cars/**",
                                 "/user/**",
-                                "/service/**"
+                                "/service/**",
+                                "/role/**"
                         ).authenticated()
                         .anyRequest().authenticated()
                 )
